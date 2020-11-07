@@ -6,6 +6,7 @@
   "author": "litianhua <18702971504@163.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.21.0",
     "chalk": "^4.1.0",
     "commander": "^6.2.0",
     "request": "^2.88.2",
