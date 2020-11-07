@@ -6,12 +6,11 @@
  *    2.3 如果key的值中有children属性，则建立columns属性
  *        children属性中的值的处理同上
  */
-const result = []
 
 // data是个Object 是columns数组中的一项
 function buildColumns (key, value) {
   if (value.constructor === Object) {
-    return keyToObject(key, value, true)
+    return keyToObject(key, value)
   } else {
     throw new Error(
       JSON.stringify({ msg: '返回值不是数组类型: ' + value.constructor })
@@ -19,32 +18,33 @@ function buildColumns (key, value) {
   }
 }
 // columns也是数组
-function keyToObject (key, value, isBuildColumns) {
-  if (!value.columns && !isBuildColumns) {
-    result.push(Object.assign({}, { field: key }, value))
-  } else if (!value.columns && isBuildColumns) {
+function keyToObject (key, value) {
+  if (!value.columns) {
     return { field: key, ...value }
   } else {
     for (let i = 0; i < value.columns.length; i++) {
-      const element = value.columns[i];
-      for (const key in element) {
-        value.columns[i] = buildColumns(key, element[key])
+      const element = value.columns[i]
+      for (const elementKey in element) {
+        value.columns[i] = buildColumns(elementKey, element[elementKey])
       }
     }
-    result.push(Object.assign({}, { field: key }, value))
   }
+  // return {field: key, ...value}
+  return value
 }
 
 function buildGridHeader (data, isBuildColumns) {
+  const result = []
   if (data.constructor === Array) {
     for (const iterator of data) {
       for (const key in iterator) {
-        keyToObject(key, iterator[key], isBuildColumns)
+        result.push(keyToObject(key, iterator[key], isBuildColumns))
       }
     }
+    return result
   } else {
     throw new Error(
-      JSON.stringify({ msg: '返回值不是数组类型: ' + data.constructor })
+      JSON.stringify({ msg: '返回值不是数组类型: ' + JSON.stringify(data) })
     )
   }
 }
@@ -52,15 +52,28 @@ function buildGridHeader (data, isBuildColumns) {
 const baseData = {
   data: [
     {
-      code: { caption: '编码' },
+      code: {
+        caption: '编码',
+        style: {
+          align: 'center'
+        }
+      },
       name: {
         caption: '名称',
         columns: [
           {
             cumulative: {
-              caption: '累计应计未计'
-
-              // columns: { cumulativeQuantity: { caption: '数量' } }
+              caption: '累计应计未计',
+              columns: [
+                {
+                  cumulativeQuantity: { caption: '数量' }
+                },
+                {
+                  cummmmm: {
+                    caption: '两盒'
+                  }
+                }
+              ]
             }
           },
           {
@@ -74,5 +87,6 @@ const baseData = {
   ]
 }
 
-buildGridHeader(baseData.data)
-console.log(JSON.stringify(result))
+// buildGridHeader(baseData.data)
+
+module.exports = buildGridHeader
