@@ -1,0 +1,14 @@
+{
+  "name": "once",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/hahei89/once.git",
+  "author": "litianhua <18702971504@163.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "commander": "^6.2.0",
+    "request": "^2.88.2",
+    "symbols": "^0.0.6"
+  }
+}
