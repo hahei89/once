@@ -8,15 +8,29 @@
  */
 const result = []
 
-
+// data是个Object 是columns数组中的一项
+function buildColumns (key, value) {
+  if (value.constructor === Object) {
+    return keyToObject(key, value, true)
+  } else {
+    throw new Error(
+      JSON.stringify({ msg: '返回值不是数组类型: ' + value.constructor })
+    )
+  }
+}
 // columns也是数组
 function keyToObject (key, value, isBuildColumns) {
   if (!value.columns && !isBuildColumns) {
     result.push(Object.assign({}, { field: key }, value))
   } else if (!value.columns && isBuildColumns) {
-    return [{ field: key, ...value }]
+    return { field: key, ...value }
   } else {
-    value.columns = buildGridHeader(value.columns, true)
+    for (let i = 0; i < value.columns.length; i++) {
+      const element = value.columns[i];
+      for (const key in element) {
+        value.columns[i] = buildColumns(key, element[key])
+      }
+    }
     result.push(Object.assign({}, { field: key }, value))
   }
 }
@@ -25,9 +39,6 @@ function buildGridHeader (data, isBuildColumns) {
   if (data.constructor === Array) {
     for (const iterator of data) {
       for (const key in iterator) {
-        if (isBuildColumns) {
-          return keyToObject(key, iterator[key], isBuildColumns)
-        }
         keyToObject(key, iterator[key], isBuildColumns)
       }
     }
@@ -50,7 +61,9 @@ const baseData = {
               caption: '累计应计未计'
 
               // columns: { cumulativeQuantity: { caption: '数量' } }
-            },
+            }
+          },
+          {
             newCome: {
               caption: '两个'
             }
