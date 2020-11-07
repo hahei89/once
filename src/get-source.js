@@ -4,19 +4,21 @@ const axios = require('axios')
 const url = 'http://rap2api.taobao.org/app/mock/257377/mctech/grid-json'
 
 // 获取数据
-async function getSourceJSon(url) {
-  try {
-    const result = await axios.get(url)
-    if(result.status === 200 && result.data){
-      if(result.data.constructor !== Object){
-        throw new Error('返回值不是对象类型: ', result.data.constructor) 
-      }
-      return result.data
+async function getSourceJSon (url) {
+  const result = await axios.get(url)
+  if (result.status === 200 && result.data) {
+    if (result.data.constructor !== Object) {
+      throw new Error (JSON.stringify({
+        status: 500,
+        msg: '返回值不是对象类型: ' + result.data.constructor
+      }))
     }
-    throw new Error(result.status + ' ' + result.statusText)
-  } catch(error){
-    throw new Error(error)
+    return { data: result.data, status: 200 }
   }
+  throw new Error(JSON.stringify({
+    status: 500,
+    msg: `status: ${result.status}, msg: ${result.statusText}`
+  }))
 }
 
-export getSourceJSon
+module.exports = getSourceJSon
