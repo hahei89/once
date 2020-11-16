@@ -13,7 +13,7 @@ function buildColumns (key, value) {
     return keyToObject(key, value)
   } else {
     throw new Error(
-      JSON.stringify({ msg: '返回值不是数组类型: ' + value.constructor })
+      JSON.stringify({ msg: '原数据不是数组类型: ' + value.constructor })
     )
   }
 }
@@ -44,49 +44,9 @@ function buildGridHeader (data, isBuildColumns) {
     return result
   } else {
     throw new Error(
-      JSON.stringify({ msg: '返回值不是数组类型: ' + JSON.stringify(data) })
+      JSON.stringify({ msg: '原数据不是数组类型: ' + JSON.stringify(data) })
     )
   }
 }
-
-const baseData = {
-  data: [
-    {
-      code: {
-        caption: '编码',
-        style: {
-          align: 'center'
-        }
-      },
-      name: {
-        caption: '名称',
-        columns: [
-          {
-            cumulative: {
-              caption: '累计应计未计',
-              columns: [
-                {
-                  cumulativeQuantity: { caption: '数量' }
-                },
-                {
-                  cummmmm: {
-                    caption: '两盒'
-                  }
-                }
-              ]
-            }
-          },
-          {
-            newCome: {
-              caption: '两个'
-            }
-          }
-        ]
-      }
-    }
-  ]
-}
-
-// buildGridHeader(baseData.data)
 
 module.exports = buildGridHeader

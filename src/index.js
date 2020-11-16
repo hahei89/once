@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const program = require('commander')
-const chalk = require('chalk')
 // 获取初始json数据
 const getSourceJSon = require('./get-source.js')
 // 构造grid头
@@ -24,7 +23,8 @@ if (program.url) {
       res => {
         if (res.status === 200) {
           const data = res.data.data
-          console.log(JSON.stringify(buildGridHeader(data), null, '  '))
+          console.log(JSON.stringify(data, null, '  '))
+          // console.log(JSON.stringify(buildGridHeader(data), null, '  '))
           const commonStyle = res.style
         }
       }

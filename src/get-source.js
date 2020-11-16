@@ -10,7 +10,7 @@ async function getSourceJSon (url) {
     if (result.data.constructor !== Object) {
       throw new Error (JSON.stringify({
         status: 500,
-        msg: '返回值不是对象类型: ' + result.data.constructor
+        msg: '原数据是对象类型: ' + result.data.constructor
       }))
     }
     return { data: result.data, status: 200 }
