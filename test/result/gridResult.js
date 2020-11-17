@@ -1,4 +1,18 @@
 module.exports = {
+  level0: {
+    grid: [
+      {
+        field: 'code',
+        caption: '编码',
+        readonly: rec => !this.editable,
+        contentHidden: rec => !this.editable
+      },
+      {
+        field: 'name',
+        caption: '名称'
+      }
+    ]
+  },
   level1: {
     grid: [
       {
