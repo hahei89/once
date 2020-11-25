@@ -22,12 +22,14 @@ function keyToObject (key, value) {
   if (!value.columns) {
     return { field: key, ...value }
   } else {
-    for (let i = 0; i < value.columns.length; i++) {
-      const element = value.columns[i]
-      for (const elementKey in element) {
-        value.columns[i] = buildColumns(elementKey, element[elementKey])
+    // for (let i = 0; i < value.columns.length; i++) {
+      const tempColumnData = []
+      for (const elementKey in value.columns[0]) {
+        // value.columns[i] = buildColumns(elementKey, element[elementKey])
+        tempColumnData.push(buildColumns(elementKey, value.columns[0][elementKey]))
       }
-    }
+      value.columns[0] = tempColumnData
+    // }
   }
   // return {field: key, ...value}
   return value
@@ -48,5 +50,88 @@ function buildGridHeader (data, isBuildColumns) {
     )
   }
 }
+const data = [
+  {
+    code: {
+      caption: '编码',
+      columns: [
+        {
+          code: {
+            caption: '1'
+          }
+        }
+      ]
+    },
+    name: {
+      caption: '名称',
+      columns: [
+        {
+          name: {
+            caption: '2',
+            type: 'tree',
+            minWidth: 300
+          }
+        }
+      ]
+    },
+    measureUnit: {
+      caption: '单位',
+      columns: [
+        {
+          measureUnit: {
+            caption: '3'
+          }
+        }
+      ]
+    },
+    reviewAmount: {
+      caption: '复核金额',
+      columns: [
+        {
+          reviewAmount: {
+            caption: '4',
+            type: 'number',
+            format: 2
+          }
+        }
+      ]
+    },
+    curMonth: {
+      caption: '本月',
+      columns: [
+        {
+          currentMonthIncome: {
+            caption: '收入',
+            columns: [
+              {
+                currentMonthIncome: {
+                  caption: '5'
+                }
+              }
+            ]
+          },
+          cost: {
+            caption: '成本',
+            columns: [
+              {
+                currentMonthBudgetCost: {
+                  caption: '应发生成本',
+                  columns: [
+                    {
+                      currentMonthBudgetCost: {
+                        caption: '6'
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+]
 
+console.log(JSON.stringify(buildGridHeader(data), null, '  '))
 module.exports = buildGridHeader
