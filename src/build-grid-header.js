@@ -22,14 +22,15 @@ function keyToObject (key, value) {
   if (!value.columns) {
     return { field: key, ...value }
   } else {
-    // for (let i = 0; i < value.columns.length; i++) {
-      const tempColumnData = []
-      for (const elementKey in value.columns[0]) {
+    const tempColumnData = []
+    for (let i = 0; i < value.columns.length; i++) {
+      const element = value.columns[i]
+      for (const elementKey in element) {
         // value.columns[i] = buildColumns(elementKey, element[elementKey])
-        tempColumnData.push(buildColumns(elementKey, value.columns[0][elementKey]))
+        tempColumnData.push(buildColumns(elementKey, element[elementKey]))
       }
-      value.columns[0] = tempColumnData
-    // }
+    }
+    value.columns = tempColumnData
   }
   // return {field: key, ...value}
   return value
